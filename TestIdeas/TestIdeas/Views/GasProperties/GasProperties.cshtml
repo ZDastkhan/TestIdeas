@@ -1,0 +1,164 @@
+﻿@model TestIdeas.Models.GasPropertiesModel
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<form id="gas-properties">
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6 wrap-collabsible">
+            <input id="method" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="method" class="lbl-toggle">Method of calculation</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <div class="form-group">
+                        <label class="control-label" for="pressure">Z-factor correlation</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <select class="form-control unit-select" id="gas-zfactor" name="gas-zfactor">
+                                    <option value="Dranchuk Purvis Robinson">Dranchuk, Purvis and Robinson</option>
+                                    <option value="Dranchuk and Abu Kassem">Dranchuk and Abu-Kassem</option>
+                                    <option value="Hall and Yarborough">Hall and Yarborough</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 wrap-collabsible">
+            <input id="gas-props" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="gas-props" class="lbl-toggle">Gas Properties</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">Specific gravity</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasSG) type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasSG>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">H<sub>2</sub>S content</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasH2S) type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasH2S>
+                                <select class="form-control unit-select" id="GasH2S-Unit" name="GasH2S-Unit">
+                                    <option value="moleFraction">mole fraction</option>
+                                    <option value="molePercent">mole %</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">CO<sub>2</sub> content</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasCO2) type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasCO2>
+                                <select class="form-control unit-select" id="GasCO2-Unit" name="GasCO2-Unit">
+                                    <option value="moleFraction">mole fraction</option>
+                                    <option value="molePercent">mole %</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">N<sub>2</sub> content</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasN2) type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasN2>
+                                <select class="form-control unit-select" id="GasN2-Unit" name="GasN2-Unit">
+                                    <option value="moleFraction">mole fraction</option>
+                                    <option value="molePercent">mole %</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 wrap-collabsible">
+            <input id="conditions" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="conditions" class="lbl-toggle">Conditions</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <div class="form-group">
+                        <label class="control-label" for="pressure">Pressure</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.Pressure) type="number" class="form-control no-spin input-parameter" step="10" value=@Model.Pressure>
+                                <select class="form-control unit-select" id="pressure-Unit" name="pressure-Unit">
+                                    <option value="psia">psia</option>
+                                    <option value="psig">psig</option>
+                                    <option value="Pa">Pa</option>
+                                    <option value="atm">atm</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="temperature">Temperature</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.Temperature) type="number" class="form-control no-spin input-parameter" step="1" value=@Model.Temperature>
+                                <select class="form-control unit-select" id="temperature-Unit" name="temperature-Unit">
+                                    <option value="degF">&deg;F</option>
+                                    <option value="degC">&deg;C</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <!--buttons-->
+        <div class="col-md-12 top-bottom-margined">
+            <button class="btn btn-success convertGasRateBtn">Calculate</button>
+            <p id="calculationMessage" name="calculationMessage" style="color:red;"></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!--results-->
+        <div class="col-md-6 wrap-collabsible">
+            <input id="results" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="results" class="lbl-toggle">Results</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <p><span>Density, &rho;g: </span><span id="density" class="resultslabel"></span><span> lb/ft<sup>3</sup></span> </p>
+                    <p><span>Z-factor, Z<sub>g</sub>: </span><span id="zg" class="resultslabel"></span></p>
+                    <p><span>Viscosity, &micro;g: </span><span id="viscosity" class="resultslabel"></span><span> cP</span> </p>
+                    <p><span>Gas formation volume factor, B<sub>g</sub>: </span><span id="bg" class="resultslabel"></span><span> ft<sup>3</sup>/SCF</span> </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>

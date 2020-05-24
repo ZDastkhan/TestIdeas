@@ -22,3 +22,109 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.rounded-border-box {
+    border-radius: 10px;
+    border: 1px solid #ffd800;
+    background-color: #def6cd;
+    margin: 3px;
+}
+
+.no-outline {
+    border: 0px;
+    outline: 0px;
+}
+
+.bs-example {
+    margin: 20px;
+}
+
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#container {
+    text-align: center;
+}
+
+.input-parameter{
+    width:10em;
+}
+
+.info-label{
+    color:darkorange;
+    font-weight:lighter;
+}
+
+.unit-select{
+    width:8em;
+}
+
+.top-bottom-margined {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/*collapsible */
+.lbl-toggle {
+    display: block;
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 1.5rem;
+    /*text-transform: uppercase;*/
+    /*text-align: center;*/
+    padding: 1rem;
+    color: black;
+    background: #def6cd;
+    cursor: pointer;
+    border-radius: 7px;
+    transition: all 0.25s ease-out;
+}
+
+.lbl-toggle:hover {
+    color: #7C5A0B;
+}
+
+.lbl-toggle::before {
+    content: ' ';
+    display: inline-block;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid currentColor;
+    vertical-align: middle;
+    margin-right: .7rem;
+    transform: translateY(-2px);
+    transition: transform .2s ease-out;
+}
+
+.collapsible-content .content-inner {
+    background: rgba(250, 224, 66, .2);
+    /*border-bottom: 1px solid rgba(250, 224, 66, .45);*/
+    border: 1px solid rgba(250, 224, 66, .45);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    padding: .5rem 1rem;
+}
+
+.collapsible-content {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height .25s ease-in-out;
+}
+
+.toggle:checked + .lbl-toggle + .collapsible-content {
+    max-height: 100vh;
+}
+
+.toggle:checked + .lbl-toggle::before {
+    transform: rotate(90deg) translateX(-3px);
+}
+
+.toggle:checked + .lbl-toggle {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/*end of collapsible */
