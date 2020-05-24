@@ -20,7 +20,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 400px;
 }
 
 .rounded-border-box {
@@ -60,11 +60,17 @@ textarea {
 
 .unit-select{
     width:8em;
+    max-width:16em;
 }
 
 .top-bottom-margined {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.results-label {
+    color: blue;
+    font-size: 1.1em;
 }
 
 /*collapsible */
@@ -81,6 +87,7 @@ textarea {
     cursor: pointer;
     border-radius: 7px;
     transition: all 0.25s ease-out;
+    margin-bottom:0px;
 }
 
 .lbl-toggle:hover {
@@ -106,6 +113,7 @@ textarea {
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
     padding: .5rem 1rem;
+    margin-bottom:5px;
 }
 
 .collapsible-content {
