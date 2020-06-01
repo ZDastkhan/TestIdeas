@@ -17,7 +17,7 @@ namespace TestIdeas.Models
 
         public Quantity()
         {
-
+            Value = 1.5;
         }
     }
 }
