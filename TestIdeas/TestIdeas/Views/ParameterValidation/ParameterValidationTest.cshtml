@@ -1,0 +1,28 @@
+﻿@model TestIdeas.Models.Quantity
+
+@{
+    ViewBag.Title = "ParameterValidationTest";
+}
+
+<h2>ParameterValidationTest</h2>
+
+<form id="validationTest">
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label" for="testInput">@Model.Name</label>
+            <div>
+                <span class="form-inline">
+                    <input id="testInput" name="testInput" type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.Value>
+                    <select class="form-control" id="unit" name="unit">
+                        <option value="m">m</option>
+                        <option value="cm">cm</option>
+                        <option value="ft">ft</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
