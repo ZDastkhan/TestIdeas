@@ -1,0 +1,318 @@
+﻿@model TestIdeas.Models.GasPropertiesModel
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<form id="gas-properties-form">
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6 wrap-collabsible">
+            <input id="method" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="method" class="lbl-toggle">Method of calculation</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <div class="form-group">
+                        <label class="control-label" for="gas-zfactor">Z-factor correlation</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <select class="form-control" id=@nameof(Model.GasZFactor) name=@nameof(Model.GasZFactor)>
+                                    <option value="Dranchuk Purvis Robinson">Dranchuk, Purvis and Robinson</option>
+                                    <option value="Dranchuk and Abu Kassem">Dranchuk and Abu-Kassem</option>
+                                    <option value="Hall and Yarborough">Hall and Yarborough</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="calculate-at">Calculate at:</label>
+                        <div>
+                            <span class="form-inline">
+                                <select class="form-control" id=@nameof(Model.CalculationType) name=@nameof(Model.CalculationType) onchange="changeCalculationType(this.options[this.selectedIndex].value)">
+                                    <option value="SinglePT">Single pressure and temperature</option>
+                                    <option value="MultiplePSingleT">Multiple pressures and specified temperature</option>
+                                    <option value="MultipleTSingleP">Multiple temperatures and specified pressure</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 wrap-collabsible">
+            <input id="gas-props" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="gas-props" class="lbl-toggle">Gas Properties</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">Specific gravity</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasSG) name=@nameof(Model.GasSG) type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasSG>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">H<sub>2</sub>S content</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasH2S) name="@nameof(Model.GasH2S)" type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasH2S>
+                                <select class="form-control unit-select" id=@nameof(Model.GasH2SUnit) name=@nameof(Model.GasH2SUnit)>
+                                    <option value="moleFraction">mole fraction</option>
+                                    <option value="molePercent">mole %</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">CO<sub>2</sub> content</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasCO2) name="@nameof(Model.GasCO2)" type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasCO2>
+                                <select class="form-control unit-select" id=@nameof(Model.GasCO2Unit) name=@nameof(Model.GasCO2Unit)>
+                                    <option value="moleFraction">mole fraction</option>
+                                    <option value="molePercent">mole %</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="h2s-content">N<sub>2</sub> content</label>
+                        <label class="info-label" style="color:orange">more info</label>
+                        <div>
+                            <span class="form-inline">
+                                <input id=@nameof(Model.GasN2) name="@nameof(Model.GasN2)" type="number" class="form-control no-spin input-parameter" step="0.1" value=@Model.GasN2>
+                                <select class="form-control unit-select" id=@nameof(Model.GasN2Unit) name=@nameof(Model.GasN2Unit)>
+                                    <option value="moleFraction">mole fraction</option>
+                                    <option value="molePercent">mole %</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 wrap-collabsible">
+            <input id="conditions" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="conditions" class="lbl-toggle">Conditions</label>
+            <div class="collapsible-content">
+                <div class="content-inner">
+                    <div id="singlePT">
+                        <div class="form-group">
+                            <label class="control-label" for="pressure">Pressure</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.Pressure) name="@nameof(Model.Pressure)" type="number" class="form-control no-spin input-parameter" step="10" value=@Model.Pressure>
+                                    <select class="form-control unit-select" id=@nameof(Model.PressureUnit) name=@nameof(Model.PressureUnit)>
+                                        <option value="psia">psia</option>
+                                        <option value="psig">psig</option>
+                                        <option value="Pa">Pa</option>
+                                        <option value="atm">atm</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="temperature">Temperature</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.Temperature) name="@nameof(Model.Temperature)" type="number" class="form-control no-spin input-parameter" step="1" value=@Model.Temperature>
+                                    <select class="form-control unit-select" id=@nameof(Model.TemperatureUnit) name=@nameof(Model.TemperatureUnit)>
+                                        <option value="degF">&deg;F</option>
+                                        <option value="degC">&deg;C</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="multipleP-singleT" style="display:none">
+                        <div class="form-group">
+                            <label class="control-label" for="temperature">Temperature</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.TemperatureMultipleP) name="@nameof(Model.TemperatureMultipleP)" type="number" class="form-control no-spin input-parameter" step="1" value=@Model.TemperatureMultipleP>
+                                    <select class="form-control unit-select" id=@nameof(Model.TemperatureMultiplePUnit) name=@nameof(Model.TemperatureMultiplePUnit)>
+                                        <option value="degF">&deg;F</option>
+                                        <option value="degC">&deg;C</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="temperature">Minimum pressure</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.MinPressure) name="@nameof(Model.MinPressure)" type="number" class="form-control no-spin input-parameter" step="1" value=@Model.MinPressure>
+                                    <select class="form-control unit-select" id=@nameof(Model.MinPressureUnit) name=@nameof(Model.MinPressureUnit)>
+                                        <option value="psia">psia</option>
+                                        <option value="psig">psig</option>
+                                        <option value="Pa">Pa</option>
+                                        <option value="atm">atm</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="temperature">Maximum pressure</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.MaxPressure) name="@nameof(Model.MaxPressure)" type="number" class="form-control no-spin input-parameter" step="1" value=@Model.MaxPressure>
+                                    <select class="form-control unit-select" id=@nameof(Model.MaxPressureUnit) name=@nameof(Model.MaxPressureUnit)>
+                                        <option value="psia">psia</option>
+                                        <option value="psig">psig</option>
+                                        <option value="Pa">Pa</option>
+                                        <option value="atm">atm</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="p-increment">Number of pressure increments:</label>
+                            <div>
+                                <span class="form-inline">
+                                    <select class="form-control" id=@nameof(Model.PressureIncCount) name=@nameof(Model.PressureIncCount)>
+                                        @for (int i = 2; i < 30; i++)
+                                        {
+                                            if (i == 10)
+                                            {
+                                                <option selected="selected" value=@i>@i</option>
+                                            }
+                                            else
+                                            {
+                                                <option value=@i>@i</option>
+                                            }
+                                        }
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="multipleT-singleP" style="display:none">
+                        <div class="form-group">
+                            <label class="control-label" for="pressure">Pressure</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.PressureMultipleT) name=@nameof(Model.PressureMultipleT) type="number" class="form-control no-spin input-parameter" step="1" value=@Model.PressureMultipleT>
+                                    <select class="form-control unit-select" id=@nameof(Model.PressureMultipleTUnit) name=@nameof(Model.PressureMultipleTUnit)>
+                                        <option value="psia">psia</option>
+                                        <option value="psig">psig</option>
+                                        <option value="Pa">Pa</option>
+                                        <option value="atm">atm</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="temperature">Minimum temperature</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.MinTemperature) name=@nameof(Model.MinTemperature) type="number" class="form-control no-spin input-parameter" step="1" value=@Model.MinTemperature>
+                                    <select class="form-control unit-select" id=@nameof(Model.MinTemperatureUnit) name=@nameof(Model.MinTemperatureUnit)>
+                                        <option value="degF">&deg;F</option>
+                                        <option value="degC">&deg;C</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="temperature">Maximum temperature</label>
+                            <label class="info-label" style="color:orange">more info</label>
+                            <div>
+                                <span class="form-inline">
+                                    <input id=@nameof(Model.MaxTemperature) name=@nameof(Model.MaxTemperature) type="number" class="form-control no-spin input-parameter" step="1" value=@Model.MaxTemperature>
+                                    <select class="form-control unit-select" id=@nameof(Model.MaxTemperatureUnit) name=@nameof(Model.MaxTemperatureUnit)>
+                                        <option value="degF">&deg;F</option>
+                                        <option value="degC">&deg;C</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" for="p-increment">Number of temperature increments:</label>
+                            <div>
+                                <span class="form-inline">
+                                    <select class="form-control" id=@nameof(Model.TemperatureIncCount) name=@nameof(Model.TemperatureIncCount)>
+                                        @for (int i = 2; i < 30; i++)
+                                        {
+                                            if (i == 10)
+                                            {
+                                                <option selected="selected" value=@i>@i</option>
+                                            }
+                                            else
+                                            {
+                                                <option value=@i>@i</option>
+                                            }
+                                        }
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <!--buttons-->
+        <div class="col-md-12 top-bottom-margined">
+            <button class="btn btn-success" onclick="calculateGasProperties()">Calculate</button>
+            <p id="calculationMessage" name="calculationMessage" style="color:red;"></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!--results-->
+        <div class="col-md-6 wrap-collabsible">
+            <input id="results" class="toggle" type="checkbox" style="display: none;" checked>
+            <label for="results" class="lbl-toggle">Results</label>
+            <div class="collapsible-content">
+                <div id="results" class="content-inner">
+                    <p><span>Density, &rho;g: </span><span id="density" class="results-label"></span><span> lb/ft<sup>3</sup></span> </p>
+                    <p><span>Z-factor, Z<sub>g</sub>: </span><span id="zg" class="results-label"></span></p>
+                    <p><span>Viscosity, &micro;g: </span><span id="viscosity" class="results-label"></span><span> cP</span> </p>
+                    <p><span>Gas formation volume factor, B<sub>g</sub>: </span><span id="bg" class="results-label"></span><span> ft<sup>3</sup>/SCF</span> </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+@section scripts{
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/TestScripts/GasProperties.js"></script>
+}
